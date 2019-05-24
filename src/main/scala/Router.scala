@@ -6,21 +6,21 @@ trait Router {
   def route: Route
 }
 
-class ClientRouter(clientRepository: ClientRepository) extends Router with Directives with ClientDirectives with ValidatorDirectives {
+class ProductRouter(productRepository: ProductRepository) extends Router with Directives with ProductDirectives with ValidatorDirectives {
   import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
   import io.circe.generic.auto._
 
-  override def route: Route = pathPrefix("clients") {
+  override def route: Route = pathPrefix("products") {
     pathEndOrSingleSlash {
       get {
-        handleWithGeneric(clientRepository.all()) { clients =>
-          complete(clients)
+        handleWithGeneric(productRepository.all()) { products =>
+          complete(products)
         }
       } ~ post {
-        entity(as[CreateClient]) { createClient =>
-          validateWith(CreateClientValidator)(createClient) {
-            handleWithGeneric(clientRepository.save(createClient)) { clients =>
-              complete(clients)
+        entity(as[CreateProduct]) { createProduct =>
+          validateWith(CreateProductValidator)(createProduct) {
+            handleWithGeneric(productRepository.save(createProduct)) { products =>
+              complete(products)
             }
           }
         }

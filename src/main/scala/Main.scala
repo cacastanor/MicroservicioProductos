@@ -9,7 +9,7 @@ object Main extends App {
   val host = "0.0.0.0"
   val port = 9000
 
-  implicit val system: ActorSystem = ActorSystem(name = "Clientes")
+  implicit val system: ActorSystem = ActorSystem(name = "Productos")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   import system.dispatcher
 
@@ -19,9 +19,9 @@ object Main extends App {
   //val collection: MongoCollection[Document] = database.getCollection("test");
   //End
 
-  val clientRepository = new InMemoryClientRepository(
+  val productRepository = new InMemoryProductRepository(
   )
-  val router = new ClientRouter(clientRepository)
+  val router = new ProductRouter(productRepository)
   val server = new Server(router, host, port)
 
   val binding = server.bind()
